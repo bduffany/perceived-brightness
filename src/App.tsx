@@ -90,6 +90,12 @@ function shuffle(array: any[]) {
   }
 }
 
+function shuffled(array: any[]) {
+  const copy = [...array];
+  shuffle(copy);
+  return copy;
+}
+
 function getPalette(brightness: number, tolerance = 0, paletteSize = 200) {
   brightness = Math.floor(Math.max(0, Math.min(255, brightness)));
   const colors: number[] = [];
@@ -131,10 +137,13 @@ function App() {
   const [palette, setPalette] = useState([] as number[]);
   const [brightness, setBrightness] = useState(200);
   const [tolerance, setTolerance] = useState(0);
+  const [shouldShuffle, setShuffle] = useState(false);
 
   useEffect(() => {
-    setPalette(getPalette(brightness, tolerance));
-  }, [brightness, tolerance]);
+    const palette = getPalette(brightness, tolerance);
+    if (shouldShuffle) shuffle(palette);
+    setPalette(palette);
+  }, [brightness, tolerance, shouldShuffle]);
 
   return (
     <div>
@@ -159,6 +168,14 @@ function App() {
         value={tolerance}
         onChange={(e) => setTolerance(Number(e.target.value))}
       />
+      <div>
+        Shuffle?{' '}
+        <input
+          type="checkbox"
+          checked={shouldShuffle}
+          onChange={() => setShuffle(!shouldShuffle)}
+        />
+      </div>
       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 16 }}>
         {palette.map((color, i) => (
           <div
