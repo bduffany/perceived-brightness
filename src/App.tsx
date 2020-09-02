@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import GithubCorner from 'react-github-corner';
 
 const perceivedBrightness = (r: number, g: number, b: number) => {
   return Math.floor(Math.sqrt(0.241 * r * r + 0.691 * g * g + 0.068 * b * b));
@@ -177,6 +177,7 @@ function App() {
 ${palette.map((hex) => `  '#${hex.toString(16).padStart(6, '0')}',`).join('\n')}
 ]`}
       />
+      <GithubCorner href="https://github.com/bduffany/perceived-brightness" />
     </div>
   );
 }
